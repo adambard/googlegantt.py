@@ -226,10 +226,19 @@ class GanttChart(object):
     def day_series(self):
         "Get the list of date labels for this chart"
         start_date = self.start_date()
-        duration = self.duration()
+        duration = self.duration() + 1 # Add 1 because we also label 0 days.
 
-        for i in range(duration + 1):
-            yield (start_date + datetime.timedelta(days=i)).strftime('%d/%m')
+
+        if self.width / duration > 80:
+            skip_n_labels = 1
+        else:
+            skip_n_labels =  int(1. / (float(self.width) / float(duration) / 80.))
+
+        for i in range(duration):
+            if i % skip_n_labels == 0:
+                yield (start_date + datetime.timedelta(days=i)).strftime('%d/%m')
+            else:
+                yield ' '
 
     def start_date(self):
         return min([t.start_date for t in self.tasks])
