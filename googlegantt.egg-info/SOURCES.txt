@@ -1,0 +1,8 @@
+MANIFEST.in
+README.rst
+googlegantt.py
+setup.py
+googlegantt.egg-info/PKG-INFO
+googlegantt.egg-info/SOURCES.txt
+googlegantt.egg-info/dependency_links.txt
+googlegantt.egg-info/top_level.txt
