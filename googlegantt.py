@@ -208,12 +208,20 @@ class GanttChart(object):
         return GOOGLE_CHARTS_API_URL + '?' + '&'.join(['%s=%s' % (key, params[key]) for key in params])
 
     def get_image(self, save_path=None):
-        "Returns a PIL image via a POST to Google Charts, optionally saving it to a path."
+        """
+        Returns a PIL image via a POST to Google Charts, optionally saving it to a path.
+
+        If there is an HTTP Problem, does nothing and returns None.
+        """
         from PIL import Image
         import cStringIO
 
-        req = urllib2.Request(url=GOOGLE_CHARTS_API_URL, data=urllib.urlencode(self.params()))
-        resp = urllib2.urlopen(req)
+        try:
+            req = urllib2.Request(url=GOOGLE_CHARTS_API_URL, data=urllib.urlencode(self.params()))
+            resp = urllib2.urlopen(req)
+        except urllib2.HTTPError as e:
+            return None
+
         imagedata = cStringIO.StringIO(resp.read())
         i = Image.open(imagedata)
 
