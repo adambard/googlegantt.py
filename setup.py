@@ -2,7 +2,7 @@ from setuptools import setup
 readme = open('README.rst').read()
 
 setup(name='googlegantt',
-        version='0.1',
+        version='0.2',
         author='Adam Bard',
         author_email='adam@adambard.com',
         license='MIT',
