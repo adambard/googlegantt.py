@@ -218,7 +218,7 @@ class GanttChart(object):
         except ImportError:
             try:
                 import Image
-            except ImportError
+            except ImportError:
                 raise Exception('Please install PIL (Python Imaging Toolkit) to save an image.')
 
         import cStringIO
