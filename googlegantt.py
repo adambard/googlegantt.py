@@ -213,7 +213,14 @@ class GanttChart(object):
 
         If there is an HTTP Problem, does nothing and returns None.
         """
-        from PIL import Image
+        try:
+            from PIL import Image
+        except ImportError:
+            try:
+                import Image
+            except ImportError
+                raise Exception('Please install PIL (Python Imaging Toolkit) to save an image.')
+
         import cStringIO
 
         try:
