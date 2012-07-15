@@ -122,6 +122,7 @@ class GanttChart(object):
         self.tasks = kwargs.get('tasks', [])
         self.width = kwargs.get('width', 600)
         self.height = kwargs.get('height', 200)
+        self.day_format = kwargs.get('day_format', '%d/%m')
         progress = kwargs.get('progress', None)
 
         if progress is not None:
@@ -165,7 +166,7 @@ class GanttChart(object):
                 'chbh': '%s,4,0' % task_size, #Bar Width
                 'chg': '%s,0' % axis_step, # Grid size
                 'chxt': 'x,y',
-                'chxl': '0:|' + '|'.join(self.day_series()) + '|1:|' + '|'.join(t.title for t in reversed(self.tasks)), # Axes labels
+                'chxl': '0:|' + '|'.join(self.day_series(format=self.day_format)) + '|1:|' + '|'.join(t.title for t in reversed(self.tasks)), # Axes labels
         }
 
 
@@ -238,7 +239,7 @@ class GanttChart(object):
 
         return i
 
-    def day_series(self):
+    def day_series(self, format='%d/%m'):
         "Get the list of date labels for this chart"
         start_date = self.start_date()
         duration = self.duration() + 1 # Add 1 because we also label 0 days.
@@ -251,7 +252,7 @@ class GanttChart(object):
 
         for i in range(duration):
             if i % skip_n_labels == 0:
-                yield (start_date + datetime.timedelta(days=i)).strftime('%d/%m')
+                yield (start_date + datetime.timedelta(days=i)).strftime(format)
             else:
                 yield ' '
 
@@ -291,7 +292,7 @@ class GanttCategory(object):
 
 class GanttTask(object):
     """
-    A task in the chart.  There are three ways to specify the position of the 
+    A task in the chart.  There are three ways to specify the position of the
     task, using keyword arguments (resolved in this order):
 
     1) A depends_on and a duration
